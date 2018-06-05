@@ -22,7 +22,7 @@ namespace Exercicio1
         static void Main(string[] args)
         {
             // Declarando um vetor de struct de 20 posições
-            habitante[] pessoa = new habitante[20];
+            habitante[] pessoa = new habitante[3];
 
             // Preenchendo dados da estrutura para 20 habitantes
             for (int i = 0; i < pessoa.Length; i++)
@@ -67,7 +67,7 @@ namespace Exercicio1
                 }
 
                 // Testa se o habitante é mulher, se tem mais de dois filhos e se sua renda é menor que R$ 600,00
-                if (pessoa[j].sexo == "F" || pessoa[j].sexo == "f")
+                if (pessoa[j].sexo.Equals("F") || pessoa[j].sexo.Equals("f"))
                 {
                     if (pessoa[j].filhos > 2)
                     {
@@ -85,13 +85,14 @@ namespace Exercicio1
             // Imprimindo resultados
             Console.Clear();
             Console.WriteLine();
-            Console.Write(" A média de salários dos habitantes é: R$ " + mediaSalario);
-            Console.Write(" A maior idade entre os habitantes é: {0} anos", maiorIdade);
-            Console.Write(" A menor idade entre os habitantes é: {0} anos", menorIdade);
-            Console.Write(" O número de mulheres com mais de dois filhos e renda inferior à R$ 600,00 é: " + mulheres);
+            Console.WriteLine(" A média de salários dos habitantes é: R$ " + mediaSalario);
+            Console.WriteLine(" A maior idade entre os habitantes é: {0} anos", maiorIdade);
+            Console.WriteLine(" A menor idade entre os habitantes é: {0} anos", menorIdade);
+            Console.WriteLine(" O número de mulheres com mais de dois filhos e renda inferior à R$ 600,00 é: " + mulheres);
             Console.WriteLine();
             Console.WriteLine(" Pressione qualquer tecla para sair...");
             Console.ReadKey();
         }
     }
 }
+
