@@ -1,0 +1,97 @@
+/*
+ * Foi realizada uma pesquisa entre 20 habitantes de uma cidade. De cada habitante foram coletados os dados: idade, sexo, renda familiar e número de filhos. 
+ * Faça um programa que leia esses dados, armazenando-os em um vetor. Calcule e mostre a média de salário entre os habitantes, a menor e a maior idade do 
+ * grupo e a quantidade de mulheres com mais de dois filhos e com renda familiar inferior a R$ 600,00.
+ */
+
+using System;
+
+namespace Exercicio1
+{
+    class Program
+    {
+        // Estrutura habitante que contem idade, sexo, renda familiar e número de filhos
+        struct habitante
+        {
+            public int idade;
+            public string sexo;
+            public double renda;
+            public int filhos;
+        }
+
+        static void Main(string[] args)
+        {
+            // Declarando um vetor de struct de 20 posições
+            habitante[] pessoa = new habitante[20];
+
+            // Preenchendo dados da estrutura para 20 habitantes
+            for (int i = 0; i < pessoa.Length; i++)
+            {
+                Console.Clear();
+                Console.WriteLine();
+
+                Console.Write(" Entre com a idade do {0}º habitante: ", (i + 1));
+                pessoa[i].idade = int.Parse(Console.ReadLine());
+                Console.Write(" Entre com o sexo do {0}º habitante (F/M): ", (i + 1));
+                pessoa[i].sexo = Console.ReadLine();
+                Console.Write(" Entre com a renda familiar do {0}º habitante (R$): ", (i + 1));
+                pessoa[i].renda = double.Parse(Console.ReadLine());
+                Console.Write(" Entre com o número de filhos do {0}º habitante: ", (i + 1));
+                pessoa[i].filhos = int.Parse(Console.ReadLine());
+            }
+
+            // Declarando variáveis para cálculo das medias
+            double mediaSalario = 0.0;
+            int menorIdade = pessoa[0].idade;
+            int maiorIdade = pessoa[0].idade;
+            int mulheres = 0;
+
+            // Calculando médias
+            for (int j = 0; j < pessoa.Length; j++)
+            {
+                // Acumulando salários de todos os habitantes na variável 'mediaSalario'
+                mediaSalario += pessoa[j].renda;
+
+                // Testa se o atual valor da idade é menor que a variável 'menorIdade'
+                if (pessoa[j].idade < menorIdade)
+                {
+                    // Caso positivo, 'menorIdade' passa a ter o valor da atual idade
+                    menorIdade = pessoa[j].idade;
+                }
+
+                // Testa se o atual valor da idade é maior que a variável 'maiorIdade'
+                if (pessoa[j].idade > maiorIdade)
+                {
+                    // Caso positivo, 'maiorIdade' passa a ter o valor da atual idade
+                    maiorIdade = pessoa[j].idade;
+                }
+
+                // Testa se o habitante é mulher, se tem mais de dois filhos e se sua renda é menor que R$ 600,00
+                if (pessoa[j].sexo == "F" || pessoa[j].sexo == "f")
+                {
+                    if (pessoa[j].filhos > 2)
+                    {
+                        if (pessoa[j].renda < 600.0)
+                        {
+                            // Caso positivo para todas as condições, adiciona 1 na variável contadora 'mulheres'
+                            mulheres++;
+                        }
+                    }
+                }
+            }
+
+            mediaSalario = mediaSalario / pessoa.Length; // Média de salários
+
+            // Imprimindo resultados
+            Console.Clear();
+            Console.WriteLine();
+            Console.Write(" A média de salários dos habitantes é: R$ " + mediaSalario);
+            Console.Write(" A maior idade entre os habitantes é: {0} anos", maiorIdade);
+            Console.Write(" A menor idade entre os habitantes é: {0} anos", menorIdade);
+            Console.Write(" O número de mulheres com mais de dois filhos e renda inferior à R$ 600,00 é: " + mulheres);
+            Console.WriteLine();
+            Console.WriteLine(" Pressione qualquer tecla para sair...");
+            Console.ReadKey();
+        }
+    }
+}
