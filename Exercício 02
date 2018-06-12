@@ -1,0 +1,174 @@
+/*
+ * Faça um programa que leia o código, a descrição, o valor unitário e a quantidade em estoque dos 50 produtos comercializados por uma papelaria. 
+ * Essas informações devem ser armazenadas em um registro do tipo vetor em ordem crescente de código. Depois da leitura faça:
+ * a) uma rotina que mostre todos os produtos cuja descrição comecem com uma determinada letra (informada pelo usuário);
+ * b) mostre todos os produtos com quantidade em estoque inferior a cinco unidades.
+ */
+
+using System;
+
+namespace Exercicio2
+{
+    class Program
+    {
+        // Estrutura para dados de uma papelaria
+        public struct papelaria
+        {
+            public int codigo;
+            public string descricao;
+            public double valor;
+            public int estoque;
+        }
+
+        // Método de ordenação crescente do vetor de 'papelaria'
+        public static papelaria[] Ordena(papelaria[] p)
+        {
+            int min, codigo, estoque;
+            string descricao;
+            double valor;
+
+            // Método de ordenação 'Selection Sort'
+            for (int i = 0; i < p.Length - 1; i++)
+            {
+                min = i;
+
+                for (int j = i + 1; j < p.Length; j++)
+                {
+                    if (p[j].codigo < p[min].codigo)
+                    {
+                        min = j;
+                    }
+                }
+
+                if (min != i)
+                {
+                    codigo = p[min].codigo;
+                    estoque = p[min].estoque;
+                    descricao = p[min].descricao;
+                    valor = p[min].valor;
+
+                    p[min].codigo = p[i].codigo;
+                    p[min].estoque = p[i].estoque;
+                    p[min].descricao = p[i].descricao;
+                    p[min].valor = p[i].valor;
+
+                    p[i].codigo = codigo;
+                    p[i].estoque = estoque;
+                    p[i].descricao = descricao;
+                    p[i].valor = valor;
+                }
+            }
+
+            return p;
+        }
+
+        // Método para filtrar e mostrar na tela todos os produtos cuja descrição comecem com uma determinada letra
+        public static void MostraLetra(papelaria[] p, char letra)
+        {
+            Console.WriteLine(" Produtos cuja descrição começa com a letra '{0}': ", letra);
+
+            for (int i = 0; i < p.Length; i++)
+            {
+                if (p[i].descricao.StartsWith(letra))
+                {
+                    Console.WriteLine();
+                    Console.WriteLine(" Código: {0} ", p[i].codigo);
+                    Console.WriteLine(" Descrição: {0} ", p[i].descricao);
+                    Console.WriteLine(" Valor: R$ {0} ", p[i].valor);
+                    Console.WriteLine(" Estoque: {0}", p[i].estoque);
+                }
+            }
+
+            Console.ReadKey();
+        }
+
+        // Método para mostrar todos os produtos com quantidade em estoque inferior a cinco unidades 
+        public static void EstoqueBaixo(papelaria[] p)
+        {
+            Console.WriteLine(" Produtos com quantidade em estoque inferior a 5 unidades:");
+
+            for (int i = 0; i < p.Length; i++)
+            {
+                if (p[i].estoque < 5)
+                {
+                    Console.WriteLine();
+                    Console.WriteLine(" Código: {0} ", p[i].codigo);
+                    Console.WriteLine(" Descrição: {0} ", p[i].descricao);
+                    Console.WriteLine(" Valor: R$ {0} ", p[i].valor);
+                    Console.WriteLine(" Estoque: {0}", p[i].estoque);
+                }
+            }
+
+            Console.ReadKey();
+        }
+
+        // Método para imprimir os códigos em ordem crescente
+        public static void ImprimeVetor(papelaria[] p)
+        {
+            Console.WriteLine(" Lista de todos os produtos cadastrados em ordem crescente: ");
+
+            for (int i = 0; i < p.Length; i++)
+            {
+                Console.WriteLine();
+                Console.WriteLine(" Código: {0} ", p[i].codigo);
+                Console.WriteLine(" Descrição: {0} ", p[i].descricao);
+                Console.WriteLine(" Valor: R$ {0} ", p[i].valor);
+                Console.WriteLine(" Estoque: {0}", p[i].estoque);
+            }
+
+            Console.ReadKey();
+        }
+
+        // Método para tratamento estético do programa
+        public static void Visual()
+        {
+            Console.Clear(); // Limpa a tela
+            Console.WriteLine(); // Pula linha
+        }
+
+        static void Main(string[] args)
+        {
+            int opcao;
+            char letra;
+            papelaria[] produto = new papelaria[3];
+            papelaria[] ordenado = new papelaria[3];
+
+            // Laço para preencher o vetor da estrutura 'papelaria'
+            for (int i = 0; i < produto.Length; i++)
+            {
+                Visual();
+
+                // Recebendo valores do usuário e armazenando-as no vetor
+                Console.Write(" Entre com o código do produto: ");
+                produto[i].codigo = int.Parse(Console.ReadLine());
+                Console.Write(" Entre com a descrição do produto: ");
+                produto[i].descricao = Console.ReadLine();
+                Console.Write(" Entre com o valor unitário do produto: ");
+                produto[i].valor = double.Parse(Console.ReadLine());
+                Console.Write(" Entre com a quantidade desse produto em estoque: ");
+                produto[i].estoque = int.Parse(Console.ReadLine());
+            }
+
+            // Laço para ordenar os dados em ordem crescente de código
+            ordenado = Ordena(produto);
+
+            // Recebendo letra escolhida pelo usuário
+            Visual();
+            Console.Write(" Entre com uma letra: ");
+            letra = char.Parse(Console.ReadLine());
+
+            // Chamando método para mostrar todos os produtos cuja descrição comecem por uma determinada letra
+            Visual();
+            MostraLetra(ordenado, letra);
+
+            // Chamando método para mostrar todos os produtos com quantidade em estoque inferior a cinco unidades 
+            Visual();
+            EstoqueBaixo(ordenado);
+
+            // Finalizando o programa
+            Visual();
+            Console.WriteLine(" Pressione qualquer tecla para sair...");
+            Console.ReadKey();
+        }
+    }
+}
