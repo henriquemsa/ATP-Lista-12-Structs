@@ -1,0 +1,96 @@
+/*
+ * Foi feita uma estatística em 15 estados brasileiros para coletar dados sobre acidentes de trânsito. Em cada estado observou-se os seguintes aspectos:
+ *   (a) nome do estado;
+ *   (b) o número de veículos que circulam nesse estado (em 2000);
+ *   (c) número de acidentes de trânsito (em 2000).
+ * Deseja-se saber:
+ *   Qual o maior e o menor índice de acidentes de trânsito e o nome dos estados em que eles ocorreram;
+ *   Qual o percentual de veículos em cada estado;
+ *   Qual a média de acidentes em cada um dos estados.
+ */
+
+using System;
+
+namespace Exercicio3
+{
+    class Program
+    {
+        public struct Estado
+        {
+            public string nome;
+            public int veiculos;
+            public int acidentes;
+        }
+
+        // Método para tratamento estético do programa
+        public static void Visual()
+        {
+            Console.Clear(); // Limpa a tela
+            Console.WriteLine(); // Pula linha
+        }
+
+        static void Main(string[] args)
+        {
+            int maiorIndice, menorIndice, aux_maior, aux_menor;
+            double percentual, media;
+
+            Estado[] estado = new Estado[3];
+
+            // Preenchendo o vetor de struct para 15 estados brasileiros
+            for (int i = 0; i < estado.Length; i++)
+            {
+                Visual();
+                Console.Write(" Entre com o nome do {0}º estado: ", (i + 1));
+                estado[i].nome = Console.ReadLine();
+                Console.Write(" Entre com o número de carros que circularam em {0} durante o ano 2000: ", (estado[i].nome));
+                estado[i].veiculos = int.Parse(Console.ReadLine());
+                Console.Write(" Entre com o número de acidentes de trânsito que ocorreram em {0} durante o ano 2000: ", (estado[i].nome));
+                estado[i].acidentes = int.Parse(Console.ReadLine());
+            }
+
+            // Inicializando valores de variáveis
+            maiorIndice = estado[0].acidentes;
+            aux_maior = 0;
+            menorIndice = estado[0].acidentes;
+            aux_menor = 0;
+            media = 0.0;
+            percentual = 0.0;
+
+            // Calculando medias, maior índice, menor índice e percentual
+            for (int i = 0; i < estado.Length; i++)
+            {
+                // Testa 'maiorIndice'
+                if (maiorIndice < estado[i].acidentes)
+                {
+                    maiorIndice = estado[i].acidentes;
+                    aux_maior = i;
+                }
+                // Testa 'menorIndice'
+                if (menorIndice > estado[i].acidentes)
+                {
+                    menorIndice = estado[i].acidentes;
+                    aux_menor = i;
+                }
+                // Acumulando valores na variavel 'media'
+                media += estado[i].acidentes;
+                // Acumulando valores na variavel 'percentual'
+                percentual += estado[i].veiculos;
+            }
+
+            // Imprimindo resultados
+            Visual();
+            Console.WriteLine(" {0} é o estado com o maior índice de acidentes no trânsito, chegando a um total de {1} acidentes.", estado[aux_maior].nome, maiorIndice);
+            Console.WriteLine(" {0} é o estado com o menor índice de acidentes no trânsito, com apenas {1} acidentes.", estado[aux_menor].nome, menorIndice);
+            Console.WriteLine(" A media de acidentes no trânsito dos {0} estados brasileiros é: {1} acidentes.", estado.Length, (media / estado.Length));
+            Console.WriteLine(); // Pula linha
+            Console.WriteLine(" Número total de veiculos dos {0} estados que participaram da pesquisa: {1}", estado.Length, percentual);
+            for (int i = 0; i < estado.Length; i++)
+            {
+                Console.WriteLine(" {0}: {1} veiculos ({2}%)", estado[i].nome, estado[i].veiculos, ((estado[i].veiculos * 100) / percentual));
+            }
+            // Finalizando o programa
+            Console.WriteLine("Pressione qualquer tecla para sair...");
+            Console.ReadKey();
+        }
+    }
+}
